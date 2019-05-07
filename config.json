@@ -1,0 +1,7 @@
+{
+    "stylComponents": "./src/**/*.styl",
+    "stylComponentsDist": "./src/",
+
+    "stylGlobal": "./src/assets/styles/**/*.styl",
+    "stylGlobalDist": "./src/"
+}
