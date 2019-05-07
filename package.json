@@ -5,6 +5,8 @@
   "author": "Rafael Cruz",
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.8.1",
+    "@material-ui/core": "^3.9.3",
+    "@material-ui/icons": "^3.0.2",
     "concurrently": "^4.1.0",
     "gsap": "^2.1.2",
     "gulp": "^4.0.0",
