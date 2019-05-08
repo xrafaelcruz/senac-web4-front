@@ -1,7 +1,5 @@
 import React from 'react'
 
-import './style/style.css'
-
 // Material UI
 import Grid from '@material-ui/core/Grid'
 
@@ -9,16 +7,16 @@ import Grid from '@material-ui/core/Grid'
 import Layout from 'layouts/screen'
 
 // Partial
-import LoginPartial from 'partials/Login'
+import Form from 'partials/Register/Form'
 
-const Login = () => (
-    <Layout page="login">
+const Register = () => (
+    <Layout page="Register">
         <Grid container justify="center" className="grid-center-content">
             <Grid item sm={3} xs={10}>
-                <LoginPartial />               
+                <Form />               
             </Grid>
         </Grid>
     </Layout>
 )
 
-export default Login
+export default Register

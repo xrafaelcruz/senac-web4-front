@@ -7,6 +7,7 @@ import { connect } from 'react-redux'
 // Screens
 import Home from 'screens/Home'
 import Login from 'screens/Login'
+import Register from 'screens/Register'
 
 // Actions
 import routesActions from 'routes/redux/actions'
@@ -48,6 +49,7 @@ class Routes extends Component {
                     <Route exact path={'/'} component={Home} />
                     <Route exact path={'/home'} component={Home} />
                     <Route exact path={'/login'} component={Login} />
+                    <Route exact path={'/register'} component={Register} />
                     <Redirect from='*' to='/' />
                 </Switch>
             </Router>

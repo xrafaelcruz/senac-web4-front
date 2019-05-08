@@ -1,8 +1,8 @@
 import React from 'react'
-import Layout from 'screens/Layout'
+import Layout from 'layouts/screen'
 
 const Home = () => (
-    <Layout>
+    <Layout page="home">
         <h1>Home</h1>
     </Layout>
 )

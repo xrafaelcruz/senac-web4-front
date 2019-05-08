@@ -1,0 +1,6 @@
+{
+    "required": "campo obrigatório!",
+    "minLength": "mínimo de caracteres: ",
+    "email": "Email inválido!",
+    "equals": "Valor diferente!"
+}
