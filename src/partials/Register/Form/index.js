@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import MaskedInput from 'react-text-mask'
 import { withRouter } from 'react-router-dom'
-import service from 'services/api'
+import api from 'services/api'
 import { connect } from 'react-redux'
 
 // Material UI
@@ -52,12 +52,6 @@ class RegisterForm extends Component {
         })
     }
 
-    handleChange = name => event => {
-        this.setState({
-          [name]: event.target.value,
-        })
-    }
-
     handleChangeInput = name => event => {
         const newState = { ...this.state }
         const form = newState.form
@@ -95,7 +89,7 @@ class RegisterForm extends Component {
         
         if (form.formValidate()) {
 
-            service.post('user', {
+            api.post('user', {
                 name: form.fields.name.value,
                 email: form.fields.email.value,
                 phone: form.fields.phone.value,
@@ -128,7 +122,7 @@ class RegisterForm extends Component {
         
                             <Grid item xs={12} sm={12}>
                                 <TextField
-                                    label="Nome"
+                                    label="Nome completo"
                                     margin="normal"
                                     fullWidth
                                     error={form.fields.name.error}
@@ -163,7 +157,7 @@ class RegisterForm extends Component {
 
                             <Grid item xs={12} sm={12}>
                                 <TextField
-                                    label="Login"
+                                    label="Nome de usuário"
                                     margin="normal"
                                     fullWidth
                                     error={form.fields.username.error}

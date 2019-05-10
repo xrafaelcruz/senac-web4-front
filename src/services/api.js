@@ -4,29 +4,28 @@ class Schedule {
 
     constructor() {
         this.api = axios.create({
-            baseURL: 'http://localhost:5000',
+            baseURL: 'http://localhost:3000',
         })
 
         this.interceptor()
     }
 
     interceptor() {
-        this.api.interceptors.request.use(async (config) => {
+        this.api.interceptors.request.use(async (params) => {
             try {
 
-                console.log(config)
-                const auth = JSON.parse(localStorage.getItem('auth'))
-                auth ? this.token = auth.token : this.token = ''
+                const token = JSON.parse(localStorage.getItem('token'))
 
-                if (this.token) {
-                    config.headers.Authorization = `Bearer ${this.token}`
+                if (token) {
+                    params.headers.Authorization = `Bearer ${token}`
                 }
         
-                return config
+                return params
         
             } catch(err) {
         
-        
+                console.log(err)
+
             }
         })
 

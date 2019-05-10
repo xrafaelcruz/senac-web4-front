@@ -43,14 +43,33 @@ class Routes extends Component {
     }
 
     render() {        
+        const { loginState } = this.props
+
         return (
             <Router history={createdHistory}>
                 <Switch>
-                    <Route exact path={'/'} component={Home} />
-                    <Route exact path={'/home'} component={Home} />
-                    <Route exact path={'/login'} component={Login} />
-                    <Route exact path={'/register'} component={Register} />
-                    <Redirect from='*' to='/' />
+                    { loginState.isLoggedIn &&
+                        <Route exact path={'/'} component={Home} />
+                    }
+
+                    { loginState.isLoggedIn &&
+                        <Route exact path={'/home'} component={Home} />
+                    }
+
+                    { !loginState.isLoggedIn &&
+                        <Route exact path={'/login'} component={Login} />
+                    }
+                    { !loginState.isLoggedIn &&
+                        <Route exact path={'/register'} component={Register} />
+                    }
+
+                    { loginState.isLoggedIn &&
+                        <Redirect from='*' to='/' />
+                    }
+
+                    { !loginState.isLoggedIn &&
+                        <Redirect from='*' to='/login' />
+                    }
                 </Switch>
             </Router>
         )
@@ -61,6 +80,7 @@ class Routes extends Component {
 const mapStateToProps = (state) => {
     return {
         routesState: state.routes,
+        loginState: state.login
     }
 }
 
