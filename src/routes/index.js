@@ -1,4 +1,3 @@
-
 import React, { Component } from 'react'
 import { Route, Switch, Redirect } from 'react-router-dom'
 import { Router } from 'react-router'
@@ -16,78 +15,71 @@ const history = require('history')
 const createdHistory = history.createBrowserHistory()
 
 class Routes extends Component {
+	componentDidUpdate() {
+		const { routesState, goTo } = this.props
 
-    componentDidUpdate() {
-        const { routesState, goTo } = this.props
-        
-        const url = routesState.url
+		const url = routesState.url
 
-        if (url) {
-            switch(url) {
-                case 'back':
-                    createdHistory.goBack()
-                    break
+		if (url) {
+			switch (url) {
+				case 'back':
+					createdHistory.goBack()
+					break
 
-                case 'forward':
-                    createdHistory.goForward()
-                    break
+				case 'forward':
+					createdHistory.goForward()
+					break
 
-                default:
-                    createdHistory.push(url)
-            }
-            
-            window.scrollTo(0, 0)
+				default:
+					createdHistory.push(url)
+			}
 
-            goTo(null)
-        }
-    }
+			window.scrollTo(0, 0)
 
-    render() {        
-        const { loginState } = this.props
+			goTo(null)
+		}
+	}
 
-        return (
-            <Router history={createdHistory}>
-                <Switch>
-                    { loginState.isLoggedIn &&
-                        <Route exact path={'/'} component={Home} />
-                    }
+	render() {
+		const { loginState } = this.props
 
-                    { loginState.isLoggedIn &&
-                        <Route exact path={'/home'} component={Home} />
-                    }
+		return (
+			<Router history={createdHistory}>
+				<Switch>
+					{loginState.isLoggedIn && <Route exact path={'/'} component={Home} />}
+					{loginState.isLoggedIn && (
+						<Route exact path={'/home'} component={Home} />
+					)}
 
-                    { !loginState.isLoggedIn &&
-                        <Route exact path={'/login'} component={Login} />
-                    }
-                    { !loginState.isLoggedIn &&
-                        <Route exact path={'/register'} component={Register} />
-                    }
+					{!loginState.isLoggedIn && (
+						<Route exact path={'/login'} component={Login} />
+					)}
+					{!loginState.isLoggedIn && (
+						<Route exact path={'/register'} component={Register} />
+					)}
 
-                    { loginState.isLoggedIn &&
-                        <Redirect from='*' to='/' />
-                    }
-
-                    { !loginState.isLoggedIn &&
-                        <Redirect from='*' to='/login' />
-                    }
-                </Switch>
-            </Router>
-        )
-    }
-
+					{loginState.isLoggedIn && <Redirect from="*" to="/" />}
+					{!loginState.isLoggedIn && <Redirect from="*" to="/login" />}
+				</Switch>
+			</Router>
+		)
+	}
 }
 
-const mapStateToProps = (state) => {
-    return {
-        routesState: state.routes,
-        loginState: state.login
-    }
+const mapStateToProps = state => {
+	return {
+		routesState: state.routes,
+		loginState: state.login
+	}
 }
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        goTo: (url) => dispatch(routesActions.goTo(url)),
-    }
+const mapDispatchToProps = dispatch => {
+	return {
+		goTo: url => dispatch(routesActions.goTo(url))
+	}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Routes)
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(Routes)

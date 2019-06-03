@@ -1,58 +1,53 @@
 import axios from 'axios'
 
 class Schedule {
+	constructor() {
+		this.api = axios.create({
+			baseURL: 'http://localhost:5000'
+		})
 
-    constructor() {
-        this.api = axios.create({
-            baseURL: 'http://localhost:3000',
-        })
+		this.interceptor()
+	}
 
-        this.interceptor()
-    }
+	interceptor() {
+		this.api.interceptors.request.use(async params => {
+			try {
+				const token = JSON.parse(localStorage.getItem('token'))
 
-    interceptor() {
-        this.api.interceptors.request.use(async (params) => {
-            try {
+				if (token) {
+					params.headers.Authorization = `Bearer ${token}`
+				}
 
-                const token = JSON.parse(localStorage.getItem('token'))
+				return params
+			} catch (err) {
+				console.log(err)
+			}
+		})
 
-                if (token) {
-                    params.headers.Authorization = `Bearer ${token}`
-                }
-        
-                return params
-        
-            } catch(err) {
-        
-                console.log(err)
+		// RESPONSE
+		this.api.interceptors.response.use(
+			response => response,
+			error => {
+				return Promise.reject(error)
+			}
+		)
+	}
 
-            }
-        })
+	post(endpoint, params = {}) {
+		return this.api.post(endpoint, params)
+	}
 
-        // RESPONSE
-        this.api.interceptors.response.use((response) => response, (error) => {
+	put(endpoint, params = {}) {
+		return this.api.put(endpoint, params)
+	}
 
-            return Promise.reject(error)
-            
-        })
-    }
+	delete(endpoint) {
+		return this.api.delete(endpoint)
+	}
 
-    post(endpoint, params = {}) {
-        return this.api.post(endpoint, params)
-    }
-
-    put(endpoint, params = {}) {
-        return this.api.put(endpoint, params)
-    }
-
-    delete(endpoint) {
-        return this.api.delete(endpoint)
-    }
-
-    get(endpoint) {
-        return this.api.get(endpoint)
-    }
-
+	get(endpoint) {
+		return this.api.get(endpoint)
+	}
 }
 
 export default new Schedule()

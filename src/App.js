@@ -1,34 +1,30 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Provider } from 'react-redux'
-import { HelmetProvider } from 'react-helmet-async'
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 
-import './index.css'
+// Assets
+import 'assets/styles/0-all.css'
 import '@fortawesome/fontawesome-free/css/all.css'
+
+// Variables
 import store from 'redux/store'
 import Routes from 'routes'
 
 const theme = createMuiTheme({
-    palette: {
-      primary: { main: '#2095f2' },
-    },
-    typography: {
-        useNextVariants: true,
-    },
-  });
+	palette: {
+		primary: { main: '#2095f2' }
+	},
+	typography: {
+		useNextVariants: true
+	}
+})
 
-class App extends Component {
-    render() {
-        return (
-            <Provider store={store}>
-                <MuiThemeProvider theme={theme}>
-                    <HelmetProvider>
-                        <Routes />
-                    </HelmetProvider>
-                </MuiThemeProvider>
-            </Provider>
-        )
-    }
-}
+const App = () => (
+	<Provider store={store}>
+		<MuiThemeProvider theme={theme}>
+			<Routes />
+		</MuiThemeProvider>
+	</Provider>
+)
 
 export default App
