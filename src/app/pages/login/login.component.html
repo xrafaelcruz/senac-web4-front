@@ -1,0 +1,43 @@
+<div data-page="login">
+  <mat-card class="card-login">
+    <form class="form" (ngSubmit)="login()">
+      <div class="row-flex column">
+        <div class="col-flex-full">
+          <mat-form-field class="full-width">
+            <input
+              [(ngModel)]="user.username"
+              name="username"
+              matInput
+              placeholder="Usuario"
+              autocomplete="off"
+              eadonly="readonly"
+            />
+          </mat-form-field>
+        </div>
+
+        <div class="col-flex-full">
+          <mat-form-field class="full-width">
+            <input
+              [(ngModel)]="user.password"
+              name="password"
+              matInput
+              type="password"
+              placeholder="Senha"
+              autocomplete="off"
+              eadonly="readonly"
+            />
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row-flex">
+        <div class="col-flex-1">
+          <button mat-button>Novo usuário</button>
+        </div>
+        <div class="col-flex-1">
+          <button mat-raised-button color="primary">Entrar</button>
+        </div>
+      </div>
+    </form>
+  </mat-card>
+</div>

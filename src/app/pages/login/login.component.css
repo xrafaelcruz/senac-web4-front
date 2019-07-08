@@ -1,0 +1,12 @@
+[data-page="login"] {
+  align-items: center;
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+}
+
+.card-login {
+  margin: auto;
+  max-width: 400px;
+  padding: 24px 16px;
+}

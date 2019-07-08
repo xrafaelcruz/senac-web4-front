@@ -1,0 +1,49 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.row-flex {
+  display: flex;
+}
+
+.row-flex.column {
+  flex-direction: column;
+  padding: 0 8px;
+}
+
+.col-flex-1 {
+  flex: 1;
+  padding: 0 8px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+#toast {
+  font-family: sans-serif;
+  color: #fff;
+  display: block;
+  position: fixed;
+  bottom: -50px;
+  padding: 10px;
+  width: 100%;
+  transition: all 250ms;
+}
+
+#toast.error {
+  background: #e91e63;
+  bottom: 0;
+}
+
+#toast.success {
+  background: #4caf50;
+}
