@@ -1,0 +1,10 @@
+#toolbar {
+  color: #fff;
+  background: #3f51b5;
+  display: flex;
+  justify-content: space-between;
+}
+
+#toolbar h2 {
+  padding-left: 24px;
+}

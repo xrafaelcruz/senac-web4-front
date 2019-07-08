@@ -1,36 +1,43 @@
 <div data-page="login">
   <mat-card class="card-login">
+    <h1 class="mat-display-1">Controle Financeiro</h1>
+
     <form class="form" (ngSubmit)="login()">
       <div class="row-flex column">
         <div class="col-flex-full">
           <mat-form-field class="full-width">
             <input
-              [(ngModel)]="user.username"
-              name="username"
               matInput
-              placeholder="Usuario"
-              autocomplete="new-user"
-              eadonly="readonly"
+              [formControl]="username"
+              placeholder="Usuário"
+              name="username"
+              type="text"
+              autocomplete="new-username"
             />
+            <mat-error *ngIf="username.invalid">{{
+              getErrorMessage(username)
+            }}</mat-error>
           </mat-form-field>
         </div>
 
         <div class="col-flex-full">
           <mat-form-field class="full-width">
             <input
-              [(ngModel)]="user.password"
-              name="password"
               matInput
-              type="password"
+              [formControl]="password"
               placeholder="Senha"
+              name="´password"
+              type="password"
               autocomplete="new-password"
-              eadonly="readonly"
             />
+            <mat-error *ngIf="password.invalid">{{
+              getErrorMessage(password)
+            }}</mat-error>
           </mat-form-field>
         </div>
       </div>
 
-      <div class="row-flex right">
+      <div class="row-flex right buttons">
         <div class="col-flex">
           <a mat-button routerLink="/user/create" class="full">Novo usuário</a>
         </div>

@@ -17,7 +17,7 @@ import { MoedaPipe } from "./pipes/moeda.pipe";
 import { FiltroMarcaPipe } from "./pipes/filtro-marca.pipe";
 
 // Guards
-import { AuthGuard, NotAuthGuard } from "./guards/auth.guard";
+import { AuthGuard, NotAuthGuard, AdmGuard } from "./guards/auth.guard";
 
 // Services
 import { ProdutoService } from "./services/produto.service";
@@ -51,6 +51,7 @@ import { MatMenuModule } from "@angular/material/menu";
 import { MatIconModule } from "@angular/material/icon";
 import { HeaderComponent } from "./components/header/header.component";
 import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatTableModule } from "@angular/material/table";
 
 @NgModule({
   declarations: [
@@ -80,6 +81,7 @@ import { MatFormFieldModule } from "@angular/material/form-field";
     HttpClientModule,
     RouterModule.forRoot(ROUTES),
     BrowserAnimationsModule,
+    ReactiveFormsModule,
 
     MatCardModule,
     MatInputModule,
@@ -90,7 +92,7 @@ import { MatFormFieldModule } from "@angular/material/form-field";
     MatMenuModule,
     MatIconModule,
     MatFormFieldModule,
-    ReactiveFormsModule
+    MatTableModule
   ],
   providers: [
     ProdutoService,
@@ -98,6 +100,7 @@ import { MatFormFieldModule } from "@angular/material/form-field";
     AuthService,
     AuthGuard,
     NotAuthGuard,
+    AdmGuard,
     ToastService
   ],
   bootstrap: [AppComponent]

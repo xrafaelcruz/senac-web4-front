@@ -13,7 +13,7 @@ import { UserUpdateComponent } from "./pages/user/user-update/user-update.compon
 import { UserListComponent } from "./pages/user/user-list/user-list.component";
 
 // Guards
-import { AuthGuard, NotAuthGuard } from "./guards/auth.guard";
+import { AuthGuard, NotAuthGuard, AdmGuard } from "./guards/auth.guard";
 
 export const ROUTES: Routes = [
   {
@@ -37,9 +37,9 @@ export const ROUTES: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: "user",
+    path: "users",
     component: UserListComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, AdmGuard]
   },
   {
     path: "user/create",

@@ -9,11 +9,13 @@ import { User } from "./../../models/user";
 })
 export class HeaderComponent implements OnInit {
   user: User = new User();
+  isAdm: boolean = false;
 
   constructor(public auth: AuthService) {}
 
   ngOnInit() {
     this.user = this.auth.getUser();
+    this.isAdm = this.auth.isAdm();
   }
 
   logout() {

@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
+import { FormControl, Validators } from "@angular/forms";
 
 // Models
 import { User } from "./../../models/user";
@@ -16,6 +17,9 @@ import { ToastService } from "./../../services/toast.service";
 export class LoginComponent implements OnInit {
   user: User = new User();
 
+  username = new FormControl("", [Validators.required]);
+  password = new FormControl("", [Validators.required]);
+
   constructor(
     private authService: AuthService,
     private toast: ToastService,
@@ -24,8 +28,19 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {}
 
+  getErrorMessage(field) {
+    return field.hasError("required")
+      ? "Campo obrigatório"
+      : field.hasError("email")
+      ? "Email inválido"
+      : "";
+  }
+
   login() {
-    if (this.user.username && this.user.password) {
+    if (!this.username.invalid && !this.password.invalid) {
+      this.user.username = this.username.value;
+      this.user.password = this.password.value;
+
       this.authService.login(this.user).subscribe(
         result => {
           const r = JSON.parse(result.toString());
@@ -34,6 +49,7 @@ export class LoginComponent implements OnInit {
           this.router.navigate(["/"]);
         },
         error => {
+          console.log(error);
           this.toast.showToast(error, "error");
         }
       );

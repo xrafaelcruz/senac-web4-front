@@ -18,6 +18,7 @@ export class AuthGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean> | boolean {
+    console.log(!this.auth.isAuthenticated());
     if (!this.auth.isAuthenticated()) {
       this.router.navigate(["login"]);
       return false;
@@ -35,6 +36,22 @@ export class NotAuthGuard implements CanActivate {
     state: RouterStateSnapshot
   ): Observable<boolean> | boolean {
     if (this.auth.isAuthenticated()) {
+      this.router.navigate([""]);
+      return false;
+    }
+    return true;
+  }
+}
+
+@Injectable()
+export class AdmGuard implements CanActivate {
+  constructor(public auth: AuthService, private router: Router) {}
+
+  canActivate(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): Observable<boolean> | boolean {
+    if (!this.auth.isAdm()) {
       this.router.navigate([""]);
       return false;
     }

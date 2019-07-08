@@ -1,0 +1,13 @@
+[data-page="user-list"] {
+  align-items: center;
+  display: flex;
+  height: calc(100vh - 64px);
+  justify-content: center;
+}
+
+.card-user-list {
+  margin: auto;
+  max-width: 90vw;
+  padding: 24px 16px;
+  width: 100%;
+}
