@@ -46,6 +46,10 @@ import { MatInputModule } from "@angular/material/input";
 import { MatGridListModule } from "@angular/material/grid-list";
 import { MatButtonModule } from "@angular/material/button";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
+import { MatToolbarModule } from "@angular/material/toolbar";
+import { MatMenuModule } from "@angular/material/menu";
+import { MatIconModule } from "@angular/material/icon";
+import { HeaderComponent } from './components/header/header.component';
 
 @NgModule({
   declarations: [
@@ -65,7 +69,8 @@ import { MatSnackBarModule } from "@angular/material/snack-bar";
     ReportFormComponent,
     ReportTableComponent,
     UserTableComponent,
-    UserFormComponent
+    UserFormComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
@@ -79,7 +84,10 @@ import { MatSnackBarModule } from "@angular/material/snack-bar";
     MatInputModule,
     MatGridListModule,
     MatButtonModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatToolbarModule,
+    MatMenuModule,
+    MatIconModule
   ],
   providers: [
     ProdutoService,

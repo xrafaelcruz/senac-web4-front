@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
 
 // Models
 import { User } from "./../../models/user";
@@ -15,7 +16,11 @@ import { ToastService } from "./../../services/toast.service";
 export class LoginComponent implements OnInit {
   user: User = new User();
 
-  constructor(private authService: AuthService, private toast: ToastService) {}
+  constructor(
+    private authService: AuthService,
+    private toast: ToastService,
+    private router: Router
+  ) {}
 
   ngOnInit() {}
 
@@ -25,6 +30,8 @@ export class LoginComponent implements OnInit {
         result => {
           const r = JSON.parse(result.toString());
           localStorage.setItem("token", r.token);
+          localStorage.setItem("user", JSON.stringify(r.user));
+          this.router.navigate(["/"]);
         },
         error => {
           this.toast.showToast(error, "error");

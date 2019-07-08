@@ -1,0 +1,11 @@
+<mat-toolbar id="toolbar">
+  <h2>{{ user.name }}</h2>
+  <button mat-button [matMenuTriggerFor]="menu">
+    <mat-icon aria-hidden="false" aria-label="Example home icon"
+      >more_vert</mat-icon
+    >
+  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="logout()">Sair</button>
+  </mat-menu>
+</mat-toolbar>

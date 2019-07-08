@@ -4,6 +4,7 @@ import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Observable, throwError } from "rxjs";
 import { HttpHeaders } from "@angular/common/http";
 import { catchError, retry } from "rxjs/operators";
+import { Router } from "@angular/router";
 
 //Models
 import { User } from "./../models/user";
@@ -20,7 +21,7 @@ const httpOptions = {
 export class AuthService {
   private jwtHelper = new JwtHelperService();
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   private handleError(errorResponse: HttpErrorResponse) {
     const result = JSON.parse(errorResponse.error);
@@ -46,6 +47,11 @@ export class AuthService {
     return !this.jwtHelper.isTokenExpired(token);
   }
 
+  public getUser(): User {
+    const user = JSON.parse(localStorage.getItem("user"));
+    return user;
+  }
+
   login(user: User) {
     return this.http
       .post(`${environment.api}/auth/token`, user, {
@@ -53,5 +59,11 @@ export class AuthService {
         responseType: "text" as "json"
       })
       .pipe(catchError(this.handleError));
+  }
+
+  logout() {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    this.router.navigate(["login"]);
   }
 }
