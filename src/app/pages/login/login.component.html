@@ -9,7 +9,7 @@
               name="username"
               matInput
               placeholder="Usuario"
-              autocomplete="off"
+              autocomplete="new-user"
               eadonly="readonly"
             />
           </mat-form-field>
@@ -23,19 +23,19 @@
               matInput
               type="password"
               placeholder="Senha"
-              autocomplete="off"
+              autocomplete="new-password"
               eadonly="readonly"
             />
           </mat-form-field>
         </div>
       </div>
 
-      <div class="row-flex">
-        <div class="col-flex-1">
-          <button mat-button>Novo usuário</button>
+      <div class="row-flex right">
+        <div class="col-flex">
+          <a mat-button routerLink="/user/create" class="full">Novo usuário</a>
         </div>
-        <div class="col-flex-1">
-          <button mat-raised-button color="primary">Entrar</button>
+        <div class="col-flex">
+          <button mat-raised-button color="primary" class="full">Entrar</button>
         </div>
       </div>
     </form>

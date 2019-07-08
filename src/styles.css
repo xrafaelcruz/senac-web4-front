@@ -8,10 +8,35 @@ body {
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-image: radial-gradient(
+    circle,
+    #d7d7d7,
+    #d7d7d7 1px,
+    #fff 1px,
+    #fff
+  );
+  background-size: 28px 28px;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 .row-flex {
   display: flex;
+  flex-wrap: wrap;
+}
+
+.row-flex.between {
+  justify-content: space-between;
+}
+
+.row-flex.between > .col-flex-1 {
+  flex: 0;
+}
+
+.row-flex.right {
+  justify-content: flex-end;
 }
 
 .row-flex.column {
@@ -19,9 +44,34 @@ body {
   padding: 0 8px;
 }
 
-.col-flex-1 {
-  flex: 1;
+.col-flex {
   padding: 0 8px;
+}
+
+.col-flex-1 {
+  padding: 0 8px;
+  width: 33%;
+}
+
+.col-flex-half {
+  padding: 0 8px;
+  width: 50%;
+}
+
+@media only screen and (max-width: 767px) {
+  .col-flex-1 {
+    width: 50%;
+  }
+
+  .col-flex-half {
+    width: 100%;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .col-flex-1 {
+    width: 100%;
+  }
 }
 
 .full-width {
@@ -46,9 +96,16 @@ body {
 
 #toast.success {
   background: #4caf50;
+  bottom: 0;
 }
 
 #toolbar {
   color: #fff;
   background: #3f51b5;
+}
+
+a.full,
+button.full {
+  display: block;
+  width: 100%;
 }
