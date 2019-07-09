@@ -81,7 +81,7 @@
         </mat-form-field>
       </div>
 
-      <div class="col-flex-1">
+      <div *ngIf="isAdm" class="col-flex-1">
         <mat-form-field class="full-width">
           <mat-label>Perfil</mat-label>
           <select

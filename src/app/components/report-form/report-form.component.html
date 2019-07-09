@@ -1,102 +1,190 @@
-<div data-component="user-form">
+<div data-component="report-form">
+  <div class="row-flex right ">
+    <button
+      mat-mini-fab
+      class="btn-add"
+      color="primary"
+      (click)="newGroup()"
+      type="button"
+    >
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+
   <form class="form" (ngSubmit)="submit()">
-    <div class="row-flex">
-      <div class="col-flex-1">
-        <mat-form-field class="full-width">
-          <input
-            matInput
-            [formControl]="email"
-            placeholder="Email"
-            name="email"
-            type="email"
-            autocomplete="new-email"
-          />
-          <mat-error *ngIf="email.invalid">{{
-            getErrorMessage(email)
-          }}</mat-error>
-        </mat-form-field>
+    <div class="wrapper-tables">
+      <div class="report-form-table">
+        <div class="thead">
+          <div class="tr">
+            <div class="th">
+              <mat-form-field class="full-width">
+                <input
+                  matInput
+                  [formControl]="reportDate"
+                  placeholder="Data"
+                  name="report-date"
+                  type="date"
+                />
+                <mat-error *ngIf="reportDate.invalid">{{
+                  getErrorMessage(reportDate)
+                }}</mat-error>
+              </mat-form-field>
+            </div>
+            <div
+              class="th"
+              *ngFor="let expenseGroup of expenseGroupList; let i = index"
+            >
+              <div class="row-flex right">
+                <button
+                  mat-mini-fab
+                  color="warn"
+                  (click)="removeGroup(i)"
+                  type="button"
+                >
+                  <mat-icon>remove</mat-icon>
+                </button>
+              </div>
+              <mat-form-field class="full-width">
+                <input
+                  matInput
+                  [formControl]="expenseGroup.fieldName"
+                  placeholder="Nome do grupo"
+                  name="group-name-{{ i }}"
+                  type="text"
+                />
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <div class="tbody">
+          <div class="tr">
+            <div class="td">
+              <mat-form-field class="full-width">
+                <input
+                  matInput
+                  [formControl]="reportValue"
+                  placeholder="Salário"
+                  name="report-value"
+                  type="text"
+                />
+                <mat-error *ngIf="reportValue.invalid">{{
+                  getErrorMessage(reportValue)
+                }}</mat-error>
+              </mat-form-field>
+            </div>
+            <div
+              class="td"
+              *ngFor="let expenseGroup of expenseGroupList; let i = index"
+            >
+              <mat-form-field class="full-width">
+                <input
+                  matInput
+                  [formControl]="expenseGroup.fieldPercentage"
+                  placeholder="Porcentagem %"
+                  name="group-percentage-{{ i }}"
+                  type="text"
+                />
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="tr">
+            <div class="td"><strong>Total permitido a ser gasto:</strong></div>
+            <div
+              class="td"
+              *ngFor="let expenseGroup of expenseGroupList; let i = index"
+            >
+              R$
+              {{
+                reportValue.value
+                  | resultOfPercentage: expenseGroup.fieldPercentage.value
+              }}
+            </div>
+          </div>
+          <div class="tr">
+            <div class="td"><strong>Total das despesas:</strong></div>
+            <div
+              class="td"
+              *ngFor="let expenseGroup of expenseGroupList; let i = index"
+            >
+              R$
+              {{ totalExpense(expenseGroup.expenseList) }}
+            </div>
+          </div>
+          <div class="tr">
+            <div class="td"><strong>Resultado:</strong></div>
+            <div
+              class="td result"
+              [ngClass]="{ negative: result(expenseGroup) < 0 }"
+              *ngFor="let expenseGroup of expenseGroupList; let i = index"
+            >
+              R$
+              {{ result(expenseGroup) }}
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div class="col-flex-1">
-        <mat-form-field class="full-width">
-          <input
-            matInput
-            [formControl]="name"
-            placeholder="Nome"
-            name="name"
-            type="text"
-            autocomplete="new-name"
-          />
-          <mat-error *ngIf="name.invalid">{{
-            getErrorMessage(name)
-          }}</mat-error>
-        </mat-form-field>
-      </div>
+      <div class="report-form-table pt0">
+        <div class="tbody">
+          <div class="tr">
+            <div class="td"><strong>Despesas</strong></div>
+            <div
+              class="td"
+              *ngFor="let expenseGroup of expenseGroupList; let i = index"
+            >
+              <div class="row-btn-add row-flex right">
+                <button
+                  mat-mini-fab
+                  color="primary"
+                  (click)="newExpense(i)"
+                  type="button"
+                >
+                  <mat-icon>add</mat-icon>
+                </button>
+              </div>
+              <div
+                *ngFor="let expense of expenseGroup.expenseList; let j = index"
+              >
+                <div class="row-flex right">
+                  <button
+                    mat-mini-fab
+                    color="warn"
+                    (click)="removeExpense(i, j)"
+                    type="button"
+                  >
+                    <mat-icon>remove</mat-icon>
+                  </button>
+                </div>
 
-      <div class="col-flex-1">
-        <mat-form-field class="full-width">
-          <input
-            matInput
-            [formControl]="username"
-            placeholder="Usuário"
-            name="username"
-            type="text"
-            autocomplete="new-username"
-          />
-          <mat-error *ngIf="username.invalid">{{
-            getErrorMessage(username)
-          }}</mat-error>
-        </mat-form-field>
-      </div>
+                <div class="row-flex">
+                  <div class="col-flex-half">
+                    <mat-form-field class="full-width">
+                      <input
+                        matInput
+                        [formControl]="expense.fieldName"
+                        placeholder="Despesa"
+                        name="expense-name"
+                        type="text"
+                      />
+                    </mat-form-field>
+                  </div>
 
-      <div class="col-flex-1">
-        <mat-form-field class="full-width">
-          <input
-            matInput
-            [formControl]="password"
-            placeholder="Senha"
-            name="´password"
-            type="password"
-            autocomplete="new-password"
-          />
-          <mat-error *ngIf="password.invalid">{{
-            getErrorMessage(password)
-          }}</mat-error>
-        </mat-form-field>
-      </div>
-
-      <div class="col-flex-1">
-        <mat-form-field class="full-width">
-          <input
-            matInput
-            [formControl]="phone"
-            placeholder="Telefone"
-            name="phone"
-            type="text"
-            autocomplete="new-phone"
-          />
-          <mat-error *ngIf="phone.invalid">{{
-            getErrorMessage(phone)
-          }}</mat-error>
-        </mat-form-field>
-      </div>
-
-      <div class="col-flex-1">
-        <mat-form-field class="full-width">
-          <mat-label>Perfil</mat-label>
-          <select
-            matNativeControl
-            [formControl]="profile"
-            name="profile"
-            autocomplete="new-profile"
-          >
-            <option value="normal">Normal</option>
-            <option value="adm">Adm</option>
-          </select>
-          <mat-error *ngIf="profile.invalid">{{
-            getErrorMessage(profile)
-          }}</mat-error>
-        </mat-form-field>
+                  <div class="col-flex-half">
+                    <mat-form-field class="full-width">
+                      <input
+                        matInput
+                        [formControl]="expense.fieldValue"
+                        placeholder="Valor R$"
+                        name="group-percentage"
+                        type="text"
+                      />
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 

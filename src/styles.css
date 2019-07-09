@@ -116,3 +116,15 @@ button.full {
   font-size: 25px;
   margin-bottom: 40px;
 }
+
+.row-btn-add + * {
+  margin-top: 24px !important;
+}
+
+.btn-add {
+  margin-bottom: 24px !important;
+}
+
+.mat-form-field.full-width .mat-form-field-infix {
+  width: 100%;
+}

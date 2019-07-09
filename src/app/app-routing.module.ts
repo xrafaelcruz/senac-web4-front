@@ -32,7 +32,7 @@ export const ROUTES: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: "report/update",
+    path: "report/update/:id",
     component: ReportUpdateComponent,
     canActivate: [AuthGuard]
   },

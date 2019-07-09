@@ -16,6 +16,5 @@ export class AppComponent {
   ngOnInit() {
     this.isAuthenticated = this.auth.isAuthenticated();
     this.user = this.auth.getUser();
-    console.log(this.user);
   }
 }

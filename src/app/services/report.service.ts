@@ -6,18 +6,19 @@ import { catchError, retry } from "rxjs/operators";
 import { Router } from "@angular/router";
 
 //Models
-import { User } from "../models/user";
+import { Report } from "../models/report";
 import { environment } from "../../environments/environment";
 
 const httpOptions = {
   headers: new HttpHeaders({
     "Content-Type": "application/json",
+    "x-auth-token": localStorage.getItem("token"),
     Authorization: "my-auth-token"
   })
 };
 
 @Injectable({ providedIn: "root" })
-export class UserService {
+export class ReportService {
   constructor(private http: HttpClient, private router: Router) {}
 
   private handleError(errorResponse: HttpErrorResponse) {
@@ -36,50 +37,50 @@ export class UserService {
         );
       }
 
-      // return an observable with a user-facing error message
+      // return an observable with a report-facing error message
       return throwError(result.error);
     } catch (e) {
       return throwError("Não foi possível executar essa operação");
     }
   }
 
-  createUser(user: User) {
+  createReport(report: Report) {
     return this.http
-      .post(`${environment.api}/user`, user, {
+      .post(`${environment.api}/report`, report, {
         headers: httpOptions.headers,
         responseType: "text" as "json"
       })
       .pipe(catchError(this.handleError));
   }
 
-  updateUser(user: User) {
+  updateReport(report: Report) {
     return this.http
-      .put(`${environment.api}/user/${user._id}`, user, {
+      .put(`${environment.api}/report/${report._id}`, report, {
         headers: httpOptions.headers,
         responseType: "text" as "json"
       })
       .pipe(catchError(this.handleError));
   }
 
-  getUsers(): Observable<User[]> {
+  getReports(id): Observable<Report[]> {
     return this.http
-      .get<User[]>(`${environment.api}/user`, {
+      .get<Report[]>(`${environment.api}/report/user/${id}`, {
         headers: httpOptions.headers
       })
       .pipe(catchError(this.handleError));
   }
 
-  getUser(id): Observable<User> {
+  getReport(id): Observable<Report> {
     return this.http
-      .get<User>(`${environment.api}/user/${id}`, {
+      .get<Report>(`${environment.api}/report/${id}`, {
         headers: httpOptions.headers
       })
       .pipe(catchError(this.handleError));
   }
 
-  removeUser(id) {
+  removeReport(_id) {
     return this.http
-      .delete(`${environment.api}/user/${id}`, {
+      .delete(`${environment.api}/report/${_id}`, {
         headers: httpOptions.headers,
         responseType: "text" as "json"
       })

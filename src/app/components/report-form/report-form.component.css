@@ -1,0 +1,64 @@
+.wrapper-tables {
+  padding: 0 0 24px;
+  overflow-x: auto;
+  width: 100%;
+}
+
+.report-form-table,
+.report-form-table .thead,
+.report-form-table .tbody {
+  display: flex;
+  flex-direction: column;
+}
+
+.report-form-table .thead,
+.report-form-table .tbody,
+.report-form-table .tr {
+  min-width: 1200px;
+  width: auto;
+}
+
+.report-form-table .tbody,
+.report-form-table .tr {
+  display: flex;
+}
+
+.report-form-table .td,
+.report-form-table .th {
+  flex: 1;
+  min-width: 300px;
+  padding: 16px;
+  text-align: left;
+}
+
+.report-form-table .td,
+.report-form-table .th {
+  border-bottom: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  border-right: 0;
+}
+
+.report-form-table .td:last-child,
+.report-form-table .th:last-child {
+  border-right: 1px solid #ddd;
+}
+
+.report-form-table .th {
+  border-top: 1px solid #ddd;
+}
+
+.report-form-table .th:first-of-type {
+  padding-top: 56px;
+}
+
+.pt0 {
+  padding-top: 0;
+}
+
+.result {
+  color: #4caf50;
+}
+
+.result.negative {
+  color: #e91e63;
+}

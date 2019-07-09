@@ -62,7 +62,12 @@ export class AuthService {
 
   public isAdm(): boolean {
     const user = JSON.parse(localStorage.getItem("user"));
-    return user.profile === "adm";
+
+    if (user && user.profile) {
+      return user.profile === "adm";
+    }
+
+    return false;
   }
 
   login(user: User) {

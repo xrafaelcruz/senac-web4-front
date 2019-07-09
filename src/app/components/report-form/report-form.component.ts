@@ -3,11 +3,12 @@ import { Router, ActivatedRoute } from "@angular/router";
 import { FormControl, Validators } from "@angular/forms";
 
 // Models
-import { User } from "./../../models/user";
+import { Report, ExpenseGroup } from "./../../models/report";
 
 // Services
-import { UserService } from "./../../services/user.service";
+import { ReportService } from "./../../services/report.service";
 import { ToastService } from "./../../services/toast.service";
+import { AuthService } from "./../../services/auth.service";
 
 @Component({
   selector: "app-report-form",
@@ -16,18 +17,16 @@ import { ToastService } from "./../../services/toast.service";
 })
 export class ReportFormComponent implements OnInit {
   @Input() isCreate: boolean;
-  user: User = new User();
+  report: Report = new Report();
   btnLabel: String;
 
-  email = new FormControl("", [Validators.required, Validators.email]);
-  name = new FormControl("", [Validators.required]);
-  password = new FormControl("", [Validators.required]);
-  phone = new FormControl("", [Validators.required]);
-  username = new FormControl("", [Validators.required]);
-  profile = new FormControl("", [Validators.required]);
+  reportValue = new FormControl("", [Validators.required]);
+  reportDate = new FormControl("", [Validators.required]);
+  expenseGroupList = [];
 
   constructor(
-    private userService: UserService,
+    private authService: AuthService,
+    private reportService: ReportService,
     private toast: ToastService,
     private router: Router,
     private route: ActivatedRoute
@@ -36,8 +35,14 @@ export class ReportFormComponent implements OnInit {
   ngOnInit() {
     this.btnLabel = this.isCreate ? "Criar" : "Editar";
 
+    if (!this.expenseGroupList.length) {
+      this.newGroup();
+      this.newGroup();
+      this.newGroup();
+    }
+
     if (!this.isCreate) {
-      this.getUser();
+      this.getReport();
     }
   }
 
@@ -50,32 +55,43 @@ export class ReportFormComponent implements OnInit {
   }
 
   submit() {
-    if (
-      !this.email.invalid &&
-      !this.name.invalid &&
-      !this.password.invalid &&
-      !this.phone.invalid &&
-      !this.username.invalid
-    ) {
-      this.user.email = this.email.value;
-      this.user.name = this.name.value;
-      this.user.password = this.password.value;
-      this.user.phone = this.phone.value;
-      this.user.username = this.username.value;
+    if (!this.reportValue.invalid && !this.reportDate.invalid) {
+      this.report.value = Number(this.reportValue.value);
+      this.report.date = this.reportDate.value;
+      this.report.idUser = this.authService.getUser()._id;
+
+      const newExpenseGroupList = [];
+      this.expenseGroupList.forEach(group => {
+        const newExpenseGroup = {
+          name: group.fieldName.value,
+          percentage: Number(group.fieldPercentage.value),
+          expenseList: []
+        };
+
+        group.expenseList.forEach(expense => {
+          newExpenseGroup.expenseList.push({
+            name: expense.fieldName.value,
+            value: Number(expense.fieldValue.value)
+          });
+        });
+
+        newExpenseGroupList.push(newExpenseGroup);
+      });
+
+      this.report.expenseGroupList = newExpenseGroupList;
 
       if (this.isCreate) {
         this.create();
       } else {
-        this.user.profile = this.profile.value;
         this.update();
       }
     }
   }
 
   create() {
-    this.userService.createUser(this.user).subscribe(
+    this.reportService.createReport(this.report).subscribe(
       () => {
-        this.toast.showToast("Usuário criado com sucesso", "success");
+        this.toast.showToast("Relatório criado com sucesso", "success");
         this.router.navigate(["/"]);
       },
       error => {
@@ -85,7 +101,7 @@ export class ReportFormComponent implements OnInit {
   }
 
   update() {
-    this.userService.updateUser(this.user).subscribe(
+    this.reportService.updateReport(this.report).subscribe(
       () => {
         this.toast.showToast("Usuário atualizado com sucesso", "success");
         this.router.navigate(["/"]);
@@ -96,22 +112,121 @@ export class ReportFormComponent implements OnInit {
     );
   }
 
-  getUser() {
+  getReport() {
     const id = this.route.snapshot.params["id"];
-    this.user._id = id;
+    this.report._id = id;
+    this.reportService.getReport(id).subscribe(
+      report => {
+        this.reportValue.setValue(report.value);
+        this.reportDate.setValue(report.date);
 
-    this.userService.getUser(id).subscribe(
-      user => {
-        this.email.setValue(user.email);
-        this.name.setValue(user.name);
-        this.password.setValue(user.password);
-        this.phone.setValue(user.phone);
-        this.username.setValue(user.username);
-        this.profile.setValue(user.profile);
+        const newExpenseGroupList = [];
+        if (report.expenseGroupList.length) {
+          report.expenseGroupList.forEach(group => {
+            const newExpenseGroup = {
+              fieldName: new FormControl(group.name, []),
+              fieldPercentage: new FormControl(group.percentage, []),
+              expenseList: []
+            };
+
+            if (group.expenseList.length) {
+              const newExpenseList = [];
+
+              group.expenseList.forEach(expense => {
+                newExpenseList.push({
+                  fieldName: new FormControl(expense.name, []),
+                  fieldValue: new FormControl(expense.value, [])
+                });
+              });
+
+              newExpenseGroup.expenseList = newExpenseList;
+            }
+
+            newExpenseGroupList.push(newExpenseGroup);
+          });
+
+          this.expenseGroupList = newExpenseGroupList;
+        }
       },
       error => {
         this.toast.showToast(error, "error");
       }
     );
+  }
+
+  newGroup() {
+    this.expenseGroupList.push({
+      fieldName: new FormControl("", []),
+      fieldPercentage: new FormControl("", []),
+      expenseList: []
+    });
+  }
+
+  removeGroup(i) {
+    this.expenseGroupList = this.expenseGroupList.filter(
+      (group, index) => i !== index
+    );
+  }
+
+  newExpense(i) {
+    this.expenseGroupList[i].expenseList.push({
+      fieldName: new FormControl("", []),
+      fieldValue: new FormControl("", [])
+    });
+  }
+
+  removeExpense(i, j) {
+    this.expenseGroupList[i].expenseList = this.expenseGroupList[
+      i
+    ].expenseList.filter((expense, index) => j !== index);
+  }
+
+  totalExpense(expenseList) {
+    if (expenseList.length) {
+      if (expenseList.length > 1) {
+        return expenseList.reduce((prev, current) => {
+          if (prev.fieldValue) {
+            return (
+              Number(prev.fieldValue.value) + Number(current.fieldValue.value)
+            );
+          } else {
+            return Number(prev) + Number(current.fieldValue.value);
+          }
+        });
+      }
+
+      return expenseList[0].fieldValue.value || 0;
+    }
+
+    return 0;
+  }
+
+  result(expenseGroup) {
+    const resultOfPercentage =
+      (expenseGroup.fieldPercentage.value * this.reportValue.value) / 100;
+
+    if (expenseGroup.expenseList.length) {
+      if (expenseGroup.expenseList.length > 1) {
+        const totalExpenses = expenseGroup.expenseList.reduce(
+          (prev, current) => {
+            if (prev.fieldValue) {
+              return (
+                Number(prev.fieldValue.value) + Number(current.fieldValue.value)
+              );
+            } else {
+              return Number(prev) + Number(current.fieldValue.value);
+            }
+          }
+        );
+
+        return resultOfPercentage - totalExpenses;
+      }
+
+      return (
+        resultOfPercentage - (expenseGroup.expenseList[0].fieldValue.value || 0)
+      );
+    }
+
+    return resultOfPercentage;
   }
 }

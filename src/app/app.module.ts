@@ -9,18 +9,14 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
 // Components
 import { AppComponent } from "./components/app/app.component";
-import { TabelaProdutosComponent } from "./components/tabela-produtos/tabela-produtos.component";
-import { FormProdutosComponent } from "./components/form-produtos/form-produtos.component";
 
 // Pipes
-import { MoedaPipe } from "./pipes/moeda.pipe";
-import { FiltroMarcaPipe } from "./pipes/filtro-marca.pipe";
+import { ResultOfPercentage } from "./pipes/result-of-percentage.pipe";
 
 // Guards
 import { AuthGuard, NotAuthGuard, AdmGuard } from "./guards/auth.guard";
 
 // Services
-import { ProdutoService } from "./services/produto.service";
 import { ToastService } from "./services/toast.service";
 import { AuthService } from "./services/auth.service";
 import { JwtHelperService } from "@auth0/angular-jwt";
@@ -57,10 +53,7 @@ import { MatSelectModule } from "@angular/material/select";
 @NgModule({
   declarations: [
     AppComponent,
-    TabelaProdutosComponent,
-    FormProdutosComponent,
-    MoedaPipe,
-    FiltroMarcaPipe,
+    ResultOfPercentage,
 
     LoginComponent,
     UserCreateComponent,
@@ -97,7 +90,6 @@ import { MatSelectModule } from "@angular/material/select";
     MatSelectModule
   ],
   providers: [
-    ProdutoService,
     JwtHelperService,
     AuthService,
     AuthGuard,

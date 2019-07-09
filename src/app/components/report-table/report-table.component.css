@@ -1,0 +1,17 @@
+[data-component="report-table"] {
+  overflow-x: auto;
+  width: 100%;
+}
+
+.table.full {
+  min-width: 1000px;
+  width: 100%;
+}
+
+.table td {
+  text-align: left;
+}
+
+.table td:last-child {
+  width: 155px;
+}

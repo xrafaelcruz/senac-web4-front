@@ -6,6 +6,7 @@ import { FormControl, Validators } from "@angular/forms";
 import { User } from "./../../models/user";
 
 // Services
+import { AuthService } from "./../../services/auth.service";
 import { UserService } from "./../../services/user.service";
 import { ToastService } from "./../../services/toast.service";
 
@@ -16,6 +17,7 @@ import { ToastService } from "./../../services/toast.service";
 })
 export class UserFormComponent implements OnInit {
   @Input() isCreate: boolean;
+  isAdm: boolean = false;
   user: User = new User();
   btnLabel: String;
 
@@ -27,6 +29,7 @@ export class UserFormComponent implements OnInit {
   profile = new FormControl("", [Validators.required]);
 
   constructor(
+    private authService: AuthService,
     private userService: UserService,
     private toast: ToastService,
     private router: Router,
@@ -34,6 +37,7 @@ export class UserFormComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.isAdm = this.authService.isAdm();
     this.btnLabel = this.isCreate ? "Criar" : "Editar";
 
     if (!this.isCreate) {
@@ -63,10 +67,13 @@ export class UserFormComponent implements OnInit {
       this.user.phone = this.phone.value;
       this.user.username = this.username.value;
 
+      if (this.isAdm) {
+        this.user.profile = this.profile.value;
+      }
+
       if (this.isCreate) {
         this.create();
       } else {
-        this.user.profile = this.profile.value;
         this.update();
       }
     }
