@@ -80,6 +80,24 @@
           }}</mat-error>
         </mat-form-field>
       </div>
+
+      <div class="col-flex-1">
+        <mat-form-field class="full-width">
+          <mat-label>Perfil</mat-label>
+          <select
+            matNativeControl
+            [formControl]="profile"
+            name="profile"
+            autocomplete="new-profile"
+          >
+            <option value="normal">Normal</option>
+            <option value="adm">Adm</option>
+          </select>
+          <mat-error *ngIf="profile.invalid">{{
+            getErrorMessage(profile)
+          }}</mat-error>
+        </mat-form-field>
+      </div>
     </div>
 
     <div class="row-flex right buttons">

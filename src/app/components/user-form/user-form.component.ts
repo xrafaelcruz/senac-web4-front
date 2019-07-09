@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from "@angular/core";
-import { Router } from "@angular/router";
+import { Router, ActivatedRoute } from "@angular/router";
 import { FormControl, Validators } from "@angular/forms";
 
 // Models
@@ -24,15 +24,21 @@ export class UserFormComponent implements OnInit {
   password = new FormControl("", [Validators.required]);
   phone = new FormControl("", [Validators.required]);
   username = new FormControl("", [Validators.required]);
+  profile = new FormControl("", [Validators.required]);
 
   constructor(
     private userService: UserService,
     private toast: ToastService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
     this.btnLabel = this.isCreate ? "Criar" : "Editar";
+
+    if (!this.isCreate) {
+      this.getUser();
+    }
   }
 
   getErrorMessage(field) {
@@ -60,6 +66,7 @@ export class UserFormComponent implements OnInit {
       if (this.isCreate) {
         this.create();
       } else {
+        this.user.profile = this.profile.value;
         this.update();
       }
     }
@@ -72,7 +79,6 @@ export class UserFormComponent implements OnInit {
         this.router.navigate(["/"]);
       },
       error => {
-        console.log(error);
         this.toast.showToast(error, "error");
       }
     );
@@ -83,6 +89,25 @@ export class UserFormComponent implements OnInit {
       () => {
         this.toast.showToast("Usuário atualizado com sucesso", "success");
         this.router.navigate(["/"]);
+      },
+      error => {
+        this.toast.showToast(error, "error");
+      }
+    );
+  }
+
+  getUser() {
+    const id = this.route.snapshot.params["id"];
+    this.user._id = id;
+
+    this.userService.getUser(id).subscribe(
+      user => {
+        this.email.setValue(user.email);
+        this.name.setValue(user.name);
+        this.password.setValue(user.password);
+        this.phone.setValue(user.phone);
+        this.username.setValue(user.username);
+        this.profile.setValue(user.profile);
       },
       error => {
         this.toast.showToast(error, "error");

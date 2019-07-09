@@ -1,0 +1,13 @@
+[data-page="user-update"] {
+  align-items: center;
+  display: flex;
+  height: calc(100vh - 64px);
+  justify-content: center;
+}
+
+.card-user-update {
+  margin: auto;
+  max-width: 600px;
+  padding: 24px 16px;
+  width: 100%;
+}

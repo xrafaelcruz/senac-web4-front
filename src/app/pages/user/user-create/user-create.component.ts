@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { AuthService } from "./../../../services/auth.service";
 
 @Component({
   selector: "app-user-create",
@@ -6,7 +7,11 @@ import { Component, OnInit } from "@angular/core";
   styleUrls: ["./user-create.component.css"]
 })
 export class UserCreateComponent implements OnInit {
-  constructor() {}
+  isAuthenticated: boolean = false;
 
-  ngOnInit() {}
+  constructor(private authService: AuthService) {}
+
+  ngOnInit() {
+    this.isAuthenticated = this.authService.isAuthenticated();
+  }
 }

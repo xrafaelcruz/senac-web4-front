@@ -54,7 +54,7 @@ export class UserService {
 
   updateUser(user: User) {
     return this.http
-      .put(`${environment.api}/user`, user, {
+      .put(`${environment.api}/user/${user._id}`, user, {
         headers: httpOptions.headers,
         responseType: "text" as "json"
       })
@@ -64,6 +64,14 @@ export class UserService {
   getUsers(): Observable<User[]> {
     return this.http
       .get<User[]>(`${environment.api}/user`, {
+        headers: httpOptions.headers
+      })
+      .pipe(catchError(this.handleError));
+  }
+
+  getUser(_id): Observable<User> {
+    return this.http
+      .get<User>(`${environment.api}/user/${_id}`, {
         headers: httpOptions.headers
       })
       .pipe(catchError(this.handleError));

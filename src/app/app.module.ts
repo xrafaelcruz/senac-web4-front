@@ -52,6 +52,7 @@ import { MatIconModule } from "@angular/material/icon";
 import { HeaderComponent } from "./components/header/header.component";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatTableModule } from "@angular/material/table";
+import { MatSelectModule } from "@angular/material/select";
 
 @NgModule({
   declarations: [
@@ -92,7 +93,8 @@ import { MatTableModule } from "@angular/material/table";
     MatMenuModule,
     MatIconModule,
     MatFormFieldModule,
-    MatTableModule
+    MatTableModule,
+    MatSelectModule
   ],
   providers: [
     ProdutoService,

@@ -46,7 +46,7 @@ export const ROUTES: Routes = [
     component: UserCreateComponent
   },
   {
-    path: "user/update",
+    path: "user/update/:id",
     component: UserUpdateComponent,
     canActivate: [AuthGuard]
   },

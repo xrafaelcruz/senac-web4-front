@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
 
 // Models
 import { User } from "./../../models/user";
@@ -22,9 +23,12 @@ export class UserTableComponent implements OnInit {
     "options"
   ];
   dataSource: User[] = [];
-  users: User[] = [];
 
-  constructor(private userService: UserService, private toast: ToastService) {}
+  constructor(
+    private userService: UserService,
+    private toast: ToastService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.getUsers();
@@ -41,7 +45,10 @@ export class UserTableComponent implements OnInit {
     );
   }
 
-  update(i) {}
+  update(i) {
+    const id = this.dataSource[i]._id;
+    this.router.navigate(["/user/update/" + id]);
+  }
 
   remove(i) {
     this.userService.removeUser(this.dataSource[i]._id).subscribe(
