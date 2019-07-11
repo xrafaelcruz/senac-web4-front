@@ -103,7 +103,7 @@ export class ReportFormComponent implements OnInit {
   update() {
     this.reportService.updateReport(this.report).subscribe(
       () => {
-        this.toast.showToast("Usuário atualizado com sucesso", "success");
+        this.toast.showToast("Relatório atualizado com sucesso", "success");
         this.router.navigate(["/"]);
       },
       error => {

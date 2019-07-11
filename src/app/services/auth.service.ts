@@ -25,23 +25,26 @@ export class AuthService {
 
   private handleError(errorResponse: HttpErrorResponse) {
     try {
-      const result = JSON.parse(errorResponse.error);
+      if (errorResponse && errorResponse.error) {
+        const result = JSON.parse(errorResponse.error);
 
-      if (errorResponse.error instanceof ErrorEvent) {
-        // A client-side or network error occurred. Handle it accordingly.
-        console.error("An error occurred:", errorResponse.error.message);
-      } else {
-        // The backend returned an unsuccessful response code.
-        // The response body may contain clues as to what went wrong,
-        console.error(
-          `Backend returned code ${errorResponse.status}, ` +
-            `body was: ${errorResponse.error}`
-        );
+        if (errorResponse.error instanceof ErrorEvent) {
+          // A client-side or network error occurred. Handle it accordingly.
+          console.error("An error occurred:", errorResponse.error.message);
+        } else {
+          // The backend returned an unsuccessful response code.
+          // The response body may contain clues as to what went wrong,
+          console.error(
+            `Backend returned code ${errorResponse.status}, ` +
+              `body was: ${errorResponse.error}`
+          );
+        }
+
+        // return an observable with a user-facing error message
+        return throwError(result.error);
       }
-
-      // return an observable with a user-facing error message
-      return throwError(result.error);
     } catch (e) {
+      console.log("auth");
       return throwError("Não foi possível executar essa operação");
     }
   }
@@ -64,7 +67,7 @@ export class AuthService {
     const user = JSON.parse(localStorage.getItem("user"));
 
     if (user && user.profile) {
-      return user.profile === "adm";
+      return user.profile === "adm" && this.isAuthenticated();
     }
 
     return false;

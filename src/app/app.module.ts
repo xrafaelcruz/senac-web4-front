@@ -7,8 +7,8 @@ import { RouterModule } from "@angular/router";
 import { AppRoutingModule, ROUTES } from "./app-routing.module";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
-// Components
-import { AppComponent } from "./components/app/app.component";
+// Directives
+import { NumberOnlyDirective } from "./directives/numberOnly";
 
 // Pipes
 import { ResultOfPercentage } from "./pipes/result-of-percentage.pipe";
@@ -22,6 +22,8 @@ import { AuthService } from "./services/auth.service";
 import { JwtHelperService } from "@auth0/angular-jwt";
 
 // Components
+import { AppComponent } from "./components/app/app.component";
+
 import { LoginComponent } from "./pages/login/login.component";
 
 import { ReportCreateComponent } from "./pages/report/report-create/report-create.component";
@@ -66,7 +68,9 @@ import { MatSelectModule } from "@angular/material/select";
     ReportTableComponent,
     UserTableComponent,
     UserFormComponent,
-    HeaderComponent
+    HeaderComponent,
+
+    NumberOnlyDirective
   ],
   imports: [
     BrowserModule,
