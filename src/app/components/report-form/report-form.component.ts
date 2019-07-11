@@ -55,6 +55,8 @@ export class ReportFormComponent implements OnInit {
   }
 
   submit() {
+    console.log("submit");
+
     if (!this.reportValue.invalid && !this.reportDate.invalid) {
       this.report.value = Number(this.reportValue.value);
       this.report.date = this.reportDate.value;
@@ -79,6 +81,8 @@ export class ReportFormComponent implements OnInit {
       });
 
       this.report.expenseGroupList = newExpenseGroupList;
+
+      console.log(this.isCreate);
 
       if (this.isCreate) {
         this.create();
@@ -118,7 +122,11 @@ export class ReportFormComponent implements OnInit {
     this.reportService.getReport(id).subscribe(
       report => {
         this.reportValue.setValue(report.value);
-        this.reportDate.setValue(report.date);
+        console.log(report.date);
+        this.reportDate.setValue(
+          new Date(report.date).toISOString().split("T")[0]
+        );
+        console.log(this.reportDate.value);
 
         const newExpenseGroupList = [];
         if (report.expenseGroupList.length) {

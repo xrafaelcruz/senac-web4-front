@@ -111,7 +111,7 @@ export class UserFormComponent implements OnInit {
       user => {
         this.email.setValue(user.email);
         this.name.setValue(user.name);
-        this.password.setValue(user.password);
+        this.password = new FormControl("", []);
         this.phone.setValue(user.phone);
         this.username.setValue(user.username);
         this.profile.setValue(user.profile);

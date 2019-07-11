@@ -33,6 +33,12 @@ export class ReportTableComponent implements OnInit {
     const id = this.authService.getUser()._id;
     this.reportService.getReports(id).subscribe(
       reports => {
+        reports.map(report => {
+          report["dateString"] = new Date(report.date)
+            .toISOString()
+            .split("T")[0];
+        });
+
         this.dataSource = reports;
       },
       error => {
